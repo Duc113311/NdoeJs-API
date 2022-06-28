@@ -1,7 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 
-import usersRouters from '../NodeJs/src/routes/users.js';
+import usersRouters from '../NdoeJs-API/src/routes/users.js';
 const app = express();
 const PORT = 5000; // port để sử dụng
 

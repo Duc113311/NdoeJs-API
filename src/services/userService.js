@@ -1,11 +1,16 @@
-
 import moduleName from "../models/user.json" assert { type: "json" };
 import { v4 as uuidv4 } from "uuid"; // Render Id type Guid
-import User from "../config/config.js";
-
+// import data from "../config/config.js";
+import db from "../config/config.js";
 // getAll
 export const getAllUserSevice = () => {
-  return User;
+  const data = db.collection("users");
+
+  console.log("data la", data);
+  if (data.empty) {
+    console.log(data);
+    return -1;
+  } else return data;
 };
 
 // create
@@ -14,7 +19,6 @@ export const createUserSevice = (req) => {
   const user = req.body;
   const userId = uuidv4();
 
-  debugger
   const userWithId = { ...user, id: userId };
 
   User.add(user);
@@ -57,8 +61,19 @@ export const deleteUserService = (req) => {
 // Xem chi tiết
 export const getUserbyIdService = (req) => {
   const { id } = req.params;
-
-  const filterIdUser = moduleName.find((user) => user.id === id);
-
-  return filterIdUser;
+  console.log(id);
+  const docRef = db.collection("users").doc(id);
+  console.log(docRef);
+  docRef
+    .get()
+    .then((doc) => {
+      if (doc.exists) {
+        return doc.data();
+      } else {
+        return "Error";
+      }
+    })
+    .catch((error) => {
+      return error;
+    });
 };

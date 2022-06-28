@@ -17,9 +17,7 @@ let users = [];
 export const getAllUserController = (req, res) => {
   try {
     const data = getAllUserSevice();
-    res.status(200).json({
-      users: data,
-    });
+    res.status(200).json(data);
   } catch (error) {
     res.status(400);
   }
@@ -33,6 +31,7 @@ export const getAllUserController = (req, res) => {
 export const getUserByIdController = (req, res) => {
   try {
     const data = getUserbyIdService(req);
+    console.log(data);
     res.status(200).json({
       user: data,
     });
@@ -49,6 +48,7 @@ export const getUserByIdController = (req, res) => {
 export const createUserController = (req, res) => {
   try {
     const userId = createUserSevice(req);
+    console.log("ádasd", userId);
     res.status(200).json({
       user: userId,
     });
