@@ -1,25 +1,15 @@
-import {
-  getAllUserSevice,
-  createUserSevice,
-  updateUserSerivce,
-  deleteUserService,
-  getUserbyIdService,
-} from "../services/userService.js";
-
-import { v4 as uuidv4 } from "uuid"; // Render Id type Guid
-let users = [];
-
-/**
- * Lấy all list users
- * @param {*} req
- * @param {*} res
- */
-export const getAllUserController = (req, res) => {
+const UserService = require("../services/userService.js");
+const UserController = {};
+UserController.getAllUserController = async (req, res) => {
   try {
-    const data = getAllUserSevice();
-    res.status(200).json(data);
+    console.log("hihih");
+    const users = await UserService.getAllUserSevice();
+    console.log(users);
+    res.status(200).json({
+      users: users,
+    });
   } catch (error) {
-    res.status(400);
+    // res.status(400);
   }
 };
 
@@ -28,7 +18,7 @@ export const getAllUserController = (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-export const getUserByIdController = (req, res) => {
+UserController.getUserByIdController = (req, res) => {
   try {
     const data = getUserbyIdService(req);
     console.log(data);
@@ -45,12 +35,14 @@ export const getUserByIdController = (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-export const createUserController = (req, res) => {
+UserController.createUserController = async(req, res) => {
   try {
-    const userId = createUserSevice(req);
-    console.log("ádasd", userId);
+    console.log("asasd",req.body);
+    const user =await UserService.createUserSevice(req);
+    // console.log("ádasd", user);
     res.status(200).json({
-      user: userId,
+      user: user,
+      message: "Success",
     });
   } catch (error) {
     res.status(400);
@@ -62,7 +54,7 @@ export const createUserController = (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-export const updateUserController = (req, res) => {
+UserController.updateUserController = (req, res) => {
   try {
     const data = updateUserSerivce(req);
     res.status(200).json({
@@ -78,7 +70,7 @@ export const updateUserController = (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-export const deleteUserController = (req, res) => {
+UserController.deleteUserController = (req, res) => {
   try {
     const data = deleteUserService(req);
     res.status(200).json({
@@ -88,3 +80,5 @@ export const deleteUserController = (req, res) => {
     res.status(400);
   }
 };
+
+module.exports = UserController;

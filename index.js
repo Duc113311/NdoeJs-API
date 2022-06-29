@@ -1,9 +1,21 @@
-import express from "express";
-import bodyParser from "body-parser";
+const express = require("express");
+const bodyParser = require("body-parser");
 
-import usersRouters from '../NdoeJs-API/src/routes/users.js';
+const morgan = require("morgan");
+const helmet = require("helmet");
+const cors = require("cors");
+const dotenv = require("dotenv");
+dotenv.config();
+
+const usersRouters = require("../NdoeJs-API/src/routes/users.js");
 const app = express();
-const PORT = 5000; // port để sử dụng
+const PORT = process.env.PORT || 5000; // port để sử dụng
+// const isProduction = process.env.NODE_ENV === "production";
+
+app.use(helmet());
+
+app.use(morgan("tiny"));
+app.use(cors());
 
 app.use(bodyParser.json());
 

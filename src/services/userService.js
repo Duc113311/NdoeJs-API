@@ -1,33 +1,30 @@
-import moduleName from "../models/user.json" assert { type: "json" };
-import { v4 as uuidv4 } from "uuid"; // Render Id type Guid
-// import data from "../config/config.js";
-import db from "../config/config.js";
-// getAll
-export const getAllUserSevice = () => {
-  const data = db.collection("users");
+const { v4: uuidv4 } = require("uuid");
+const User = require("../config/config.js");
+const db = require("../config/config.js");
 
-  console.log("data la", data);
-  if (data.empty) {
-    console.log(data);
-    return -1;
-  } else return data;
+const UserService = {};
+// getAll
+UserService.getAllUserSevice = async () => {
+  const User = db.collection("User");
+  const snapshot = await User.get();
+  const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+  console.log(list);
+  return list;
 };
 
 // create
 
-export const createUserSevice = (req) => {
+UserService.createUserSevice = async(req) => {
   const user = req.body;
-  const userId = uuidv4();
+  const User = db.collection("User");
+  await User.add(user);
+  // console.log("Luu",User)
 
-  const userWithId = { ...user, id: userId };
-
-  User.add(user);
-
-  return userId;
+  return user;
 };
 
 // update
-export const updateUserSerivce = (req) => {
+UserService.updateUserSerivce = (req) => {
   const { id } = req.params;
 
   const { firstName, lastName, age } = req.body;
@@ -50,7 +47,7 @@ export const updateUserSerivce = (req) => {
 };
 
 // Delete
-export const deleteUserService = (req) => {
+UserService.deleteUserService = (req) => {
   const { id } = req.params;
   debugger;
   const filterIdUsers = moduleName.filter((user) => user.id !== id);
@@ -59,7 +56,7 @@ export const deleteUserService = (req) => {
 };
 
 // Xem chi tiết
-export const getUserbyIdService = (req) => {
+UserService.getUserbyIdService = (req) => {
   const { id } = req.params;
   console.log(id);
   const docRef = db.collection("users").doc(id);
@@ -76,4 +73,7 @@ export const getUserbyIdService = (req) => {
     .catch((error) => {
       return error;
     });
+  ``;
 };
+
+module.exports = UserService;
