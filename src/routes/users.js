@@ -1,11 +1,13 @@
 const express = require("express");
 
-const UserController  = require("../controllers/users.js");
+const UserController = require("../controllers/users.js");
+
+const BaseControllers = require("../../src/base/baseControllers.js");
 
 const router = express.Router();
 
 // Method get, post, put, delete
-router.get("/", UserController.getAllUserController);
+router.get("/:userName", BaseControllers.getAllEntitysContr);
 
 router.post("/", UserController.createUserController);
 
