@@ -2,6 +2,8 @@ const BaseServices = require("../../src/base/baseServices.js");
 
 const BaseController = {};
 
+
+// Get ALl Data entity-"req.param"
 BaseController.getAllEntitysContr = async (req, res) => {
   try {
     const entity=req.params.userName
