@@ -1,20 +1,18 @@
 const express = require("express");
 
-const UserController = require("../controllers/users.js");
-
 const BaseControllers = require("../../src/base/baseControllers.js");
 
 const router = express.Router();
 
 // Method get, post, put, delete
-router.get("/:userName", BaseControllers.getAllEntitysContr);
+router.get("/:entityName", BaseControllers.getAllEntitysController);
 
-router.post("/", UserController.createUserController);
+router.post("/:entityName", BaseControllers.createEntityController);
 
-router.get("/:id", UserController.getUserByIdController);
+router.get("/:entityName/:entityId", BaseControllers.getEntityByIdController);
 
-router.delete("/:id", UserController.deleteUserController);
+router.delete("/:entityName/:entityId", BaseControllers.deleteEntityController);
 
-router.patch("/:id", UserController.updateUserController);
+router.patch("/:entityName/:entityId", BaseControllers.updateEntityController);
 
 module.exports = router;

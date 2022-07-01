@@ -8,6 +8,9 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const usersRouters = require("../NdoeJs-API/src/routes/users.js");
+ const loginRouters = require("../NdoeJs-API/src/routes/login.js");
+
+
 const app = express();
 const PORT = process.env.PORT || 5000; // port để sử dụng
 // const isProduction = process.env.NODE_ENV === "production";
@@ -21,6 +24,8 @@ app.use(bodyParser.json());
 
 // Router của Controller User
 app.use("/users", usersRouters);
+app.use("/login", loginRouters);
+
 
 // Router Default
 app.get("/", (req, res) => res.send("Hello from Homepage"));

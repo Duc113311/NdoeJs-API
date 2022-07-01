@@ -1,11 +1,11 @@
 const { v4: uuidv4 } = require("uuid");
 const User = require("../config/config.js");
-const db = require("../config/config.js");
+const authjwt = require("../config/config.js");
 
 const UserService = {};
 // getAll
 UserService.getAllUserSevice = async () => {
-  const User = db.collection("User");
+  const User = authjwt.db.collection("User");
   const snapshot = await User.get();
   const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   console.log(list);
