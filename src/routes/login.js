@@ -5,7 +5,9 @@ const LoginController = require("../../src/controllers/authentication/loginContr
 
 const router = express.Router();
 
-router.get("/", LoginController.createAccountController);
+router.post("/email", LoginController.createAccountByEmailController);
+router.post("/google", LoginController.createAccountByGoogleController);
+
 
 
 
