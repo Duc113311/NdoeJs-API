@@ -1,5 +1,5 @@
 function handleAPIError(err, res) {
-  console.log(err);
+
   if (err.statusCode && err.code) {
     return res
       .status(err.statusCode)

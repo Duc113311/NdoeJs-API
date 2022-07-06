@@ -28,7 +28,6 @@ BaseController.getEntityByIdController = async (req, res) => {
   try {
     const entityParam = req.params;
     const paramEntity = await BaseServices.getEntityByIdService(entityParam);
-    console.log(paramEntity);
     res.status(200).json({
       user: paramEntity,
     });
@@ -44,7 +43,6 @@ BaseController.getEntityByIdController = async (req, res) => {
 BaseController.createEntityController = async (req, res) => {
   try {
     const paramEntity = await BaseServices.createEntityService(req);
-    console.log(paramEntity);
     res.status(200).json({
       user: paramEntity,
       message: "Success",

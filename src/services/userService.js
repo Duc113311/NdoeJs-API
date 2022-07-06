@@ -8,17 +8,15 @@ UserService.getAllUserSevice = async () => {
   const User = authjwt.db.collection("User");
   const snapshot = await User.get();
   const list = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-  console.log(list);
   return list;
 };
 
 // create
 
-UserService.createUserSevice = async(req) => {
+UserService.createUserSevice = async (req) => {
   const user = req.body;
   const User = db.collection("User");
   await User.add(user);
-  // console.log("Luu",User)
 
   return user;
 };
@@ -58,9 +56,7 @@ UserService.deleteUserService = (req) => {
 // Xem chi tiết
 UserService.getUserbyIdService = (req) => {
   const { id } = req.params;
-  console.log(id);
   const docRef = db.collection("users").doc(id);
-  console.log(docRef);
   docRef
     .get()
     .then((doc) => {

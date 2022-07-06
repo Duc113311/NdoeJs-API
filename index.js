@@ -7,8 +7,8 @@ const cors = require("cors");
 const dotenv = require("dotenv");
 dotenv.config();
 
-const usersRouters = require("../NdoeJs-API/src/routes/users.js");
- const loginRouters = require("../NdoeJs-API/src/routes/login.js");
+const usersRouters = require("../NodeJs-API/src/routes/rt-users.js");
+const loginRouters = require("../NodeJs-API/src/routes/rt-login.js");
 
 
 const app = express();
@@ -20,12 +20,12 @@ app.use(helmet());
 app.use(morgan("tiny"));
 app.use(cors());
 
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Router của Controller User
+// Router của Controller App
 app.use("/users", usersRouters);
-app.use("/login", loginRouters);
-
+app.use("/login/v1", loginRouters);
 
 // Router Default
 app.get("/", (req, res) => res.send("Hello from Homepage"));

@@ -10,7 +10,6 @@ const BaseServices = {};
  */
 BaseServices.getAllEntitysService = async (entityName) => {
   const nameDB = `${entityName}`;
-  console.log(authjwt.auth);
   const entitys = authjwt.db.collection(nameDB.toString());
   const listEntitys = await entitys.get();
   const datas = listEntitys.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -62,8 +61,6 @@ BaseServices.createEntityService = async (req, res) => {
 BaseServices.deleteEntityService = async (req) => {
   const entityId = req.params.entityId;
   const entityName = req.params.entityName;
-  console.log(entityId);
-  console.log(entityName);
   const entityDB = authjwt.db.collection(entityName.toString()).doc(entityId);
 
   const query = { id: entityId };
@@ -89,13 +86,9 @@ BaseServices.updateEntityService = async (req) => {
   const entityId = req.params.entityId;
   const entityName = req.params.entityName;
   const entityBody = req.body;
-  console.log(entityId);
-  console.log(entityName);
-
   const entityDB = authjwt.db.collection(entityName.toString()).doc(entityId);
 
   const resEntity = await entityDB.update(entityBody);
-  console.log(resEntity);
   return resEntity;
 };
 module.exports = BaseServices;

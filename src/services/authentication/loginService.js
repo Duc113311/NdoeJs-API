@@ -1,7 +1,12 @@
+const { json } = require("body-parser");
+const jwt = require("jsonwebtoken");
 const authjwt = require("../../config/config.js");
-
+const dbMongo = require("../../database/dataHeartlinkMongo.js");
 const LoginServices = {};
-
+/**
+ * Tạo tài khoản bằng email vs password
+ * @param {*} req
+ */
 LoginServices.createAccountByEmailService = async (req) => {
   const auths = authjwt.auth;
   const email = req.body.email;
@@ -17,41 +22,67 @@ LoginServices.createAccountByEmailService = async (req) => {
     });
 };
 
+/**
+ * Login Google
+ * @param {*} req
+ */
 LoginServices.createAccountByGoogleService = async (req) => {
   const auths = authjwt.auth;
   const provider = authjwt.provider;
-
-  
-  console.log(auths);
-  console.log(provider);
-  await auths.signInWithPopup(auth, provider)
+  await auths
+    .signInWithPopup(auth, provider)
     .then((result) => {
-      // This gives you a Google Access Token. You can use it to access the Google API.
-      // const credential = GoogleAuthProvider.credentialFromResult(result);
       const credential = auths.GoogleAuthProvider.credentialFromResult(result);
       const token = credential.accessToken;
-      debugger;
-      console.log(token);
       // The signed-in user info.
       const user = result.user;
-      console.log (user)
-      return user
+      return user;
       // ...
     })
     .catch((error) => {
-      // Handle Errors here.
-      const errorCode = error.code;
-      const errorMessage = error.message;
-      // The email of the user's account used.
-      const email = error.customData.email;
-      // The AuthCredential type that was used.
-      console.log(errorMessage);
-      console.log(provider);
-      console.log(errorCode);
-      return error
-
-  //     //const credential = GoogleAuthProvider.credentialFromError(error);
-  //     // ...
+      return error;
     });
 };
+
+/**
+ * Create Account Mongo
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
+LoginServices.createAccountMongoDBService = async (req, res) => {
+  const userName = req.body.userName;
+  const passWord = req.body.passWord;
+
+  if (userName === undefined || passWord === undefined) {
+    return undefined;
+  }
+
+  let exsistData = await dbMongo.collection("Accounts").findOne({
+    UserName: userName,
+  });
+
+  if (exsistData) {
+    return exsistData.UserName;
+  } else {
+    let insertData = await dbMongo.collection("Accounts").insert({
+      UserName: userName,
+      PassWord: passWord,
+    });
+    return insertData;
+  }
+};
+
+LoginServices.loginAccountMongoService = async (req, res) => {
+  const dataBody = req.body;
+
+  const accessToken = jwt.sign(dataBody, process.env.ACCESS_TOKEN_SECRET, {
+    expiresIn: "30s",
+  });
+
+  return accessToken;
+};
+
+
+
 module.exports = LoginServices;

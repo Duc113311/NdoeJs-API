@@ -2,14 +2,11 @@ const UserService = require("../services/userService.js");
 const UserController = {};
 UserController.getAllUserController = async (req, res) => {
   try {
-    console.log("hihih");
     const users = await UserService.getAllUserSevice();
-    console.log(users);
     res.status(200).json({
       users: users,
     });
   } catch (error) {
-    // res.status(400);
   }
 };
 
@@ -21,7 +18,6 @@ UserController.getAllUserController = async (req, res) => {
 UserController.getUserByIdController = (req, res) => {
   try {
     const data = getUserbyIdService(req);
-    console.log(data);
     res.status(200).json({
       user: data,
     });
@@ -35,11 +31,9 @@ UserController.getUserByIdController = (req, res) => {
  * @param {*} req
  * @param {*} res
  */
-UserController.createUserController = async(req, res) => {
+UserController.createUserController = async (req, res) => {
   try {
-    console.log("asasd",req.body);
-    const user =await UserService.createUserSevice(req);
-    // console.log("ádasd", user);
+    const user = await UserService.createUserSevice(req);
     res.status(200).json({
       user: user,
       message: "Success",
