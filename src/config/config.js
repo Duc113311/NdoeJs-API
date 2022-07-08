@@ -11,13 +11,17 @@ const firebaseConfig = {
   measurementId: "G-7F2VXPT5GR",
 };
 
+
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
-const provider = new firebase.auth.GoogleAuthProvider();
+const authBase = firebase.auth;
+auth.languageCode = "it";
+// recapcha
+
 const authjwt = {
   db,
   auth,
-  provider
+  authBase,
 };
 module.exports = authjwt;

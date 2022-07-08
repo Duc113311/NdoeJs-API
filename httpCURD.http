@@ -7,6 +7,7 @@ POST http://localhost:5000/login/v1/register
 Content-Type: application/json
 
 {
+    "userName":"nguyenvanducdev@gmail.com",
     "passWord":"1234567"
 }
 
@@ -16,6 +17,17 @@ POST http://localhost:5000/login/v1/login
 Content-Type: application/json
 
 {
-    "userName":"nguduc",
+    "userName":"nguyenvanducdev@gmail.com",
     "passWord":"1234567"
+}
+
+###
+
+POST http://localhost:5000/login/v1/phone-number
+Content-Type: application/json
+
+{
+    "phoneNumber":"+84962282864",
+    "codeId":"575065",
+    "sendCodeId":"AJOnW4TiRBvt1EBLVf90qF0xIpyZ3WqjGx73MgF3-R7yhbTGZizC3767G9hPmEiOIB1UDHaBAbPWGIMjVLwvV0vZ5IvSDxk9lOzzSvBBTaWdtjFzuRrqi3fBq5IjIalg3ygZqQtoIH0F8e5l-hJTfQOupCi5AGaS_OFZi4zKCG2mWX8bUM53arjkbH5kf7hYUNSLX63LNS6sNnUCvkhr5FEZ1hu1Tq-RQcqpwHUdZ4U9U2qcr0SbO74"
 }

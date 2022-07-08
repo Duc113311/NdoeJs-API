@@ -2,7 +2,6 @@ const express = require("express");
 
 const LoginController = require("../../src/controllers/authentication/loginController.js");
 
-
 const router = express.Router();
 
 // Firebase
@@ -15,8 +14,6 @@ router.post("/register", LoginController.createAccountMongoDBController);
 
 router.post("/login", LoginController.loginAccountMongoController);
 
-
-
-
+router.post("/phone-number", LoginController.loginPhoneNumberController);
 
 module.exports = router;

@@ -45,7 +45,7 @@ LoginServices.createAccountByGoogleService = async (req) => {
 };
 
 /**
- * Create Account Mongo
+ * Create Account Firebase
  * @param {*} req
  * @param {*} res
  * @returns
@@ -53,36 +53,80 @@ LoginServices.createAccountByGoogleService = async (req) => {
 LoginServices.createAccountMongoDBService = async (req, res) => {
   const userName = req.body.userName;
   const passWord = req.body.passWord;
+  const entityBody = req.body;
 
   if (userName === undefined || passWord === undefined) {
     return undefined;
   }
 
-  let exsistData = await dbMongo.collection("Accounts").findOne({
-    UserName: userName,
-  });
+  // Tìm kiếm xem tồn tại tài khoản này chưa
+  const accountDb = authjwt.db.collection("Accounts");
+  await accountDb.add(entityBody);
 
-  if (exsistData) {
-    return exsistData.UserName;
-  } else {
-    let insertData = await dbMongo.collection("Accounts").insert({
-      UserName: userName,
-      PassWord: passWord,
-    });
-    return insertData;
-  }
+  return entityBody;
 };
 
+/**
+ * Login bằng nhập tài khoản & mật khẩu
+ * @param {*} req
+ * @param {*} res
+ * @returns
+ */
 LoginServices.loginAccountMongoService = async (req, res) => {
   const dataBody = req.body;
+  const refreshTokenDB = authjwt.db.collection("RefreshTokens");
 
-  const accessToken = jwt.sign(dataBody, process.env.ACCESS_TOKEN_SECRET, {
-    expiresIn: "30s",
+  // Kiểm tra xem đúng tài khoản & mật khẩu chưa
+  const accountParamDB = authjwt.db
+    .collection("Accounts")
+    .where("userName", "==", dataBody.userName)
+    .where("passWord", "==", dataBody.passWord);
+
+  accountParamDB.get().then(async (doc) => {
+    if (doc.empty) {
+      return {};
+    } else {
+      console.log("Data", true);
+
+      const accessToken = jwt.sign(dataBody, process.env.ACCESS_TOKEN_SECRET, {
+        expiresIn: "30s",
+      });
+
+      const refershTokenParam = jwt.sign(
+        dataBody,
+        process.env.REFRESH_TOKEN_SECRET
+      );
+      const refreshToken = {
+        userName: dataBody.userName,
+        refreshTokenValue: refershTokenParam,
+        accessTokenValue: accessToken,
+      };
+
+      await refreshTokenDB.add(refreshToken);
+      return refreshToken;
+    }
   });
-
-  return accessToken;
 };
 
+LoginServices.loginPhoneNumberService = async (req, res) => {
+  const phoneNumberParam = req.body.phoneNumber;
+  const verificationCode = req.body.codeId;
+  const verificationId = req.body.sendCodeId;
 
+  const auths = authjwt.auth;
+  const credential = await authjwt.authBase.PhoneAuthProvider.credential(
+    verificationId,
+    verificationCode
+  );
+  try {
+    await auths.signInWithCredential(credential).then((result) => {
+      debugger;
+      console.log("Kết quả", result);
+      return result;
+    });
+  } catch (error) {
+    console.log("Lỗi", error);
+  }
+};
 
 module.exports = LoginServices;

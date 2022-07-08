@@ -57,11 +57,40 @@ LoginController.createAccountMongoDBController = async (req, res) => {
   }
 };
 
+/**
+ * Login account
+ * @param {*} req
+ * @param {*} res
+ */
 LoginController.loginAccountMongoController = async (req, res) => {
   try {
     //
-    const accessToken = await LoginServices.loginAccountMongoService(req);
-    res.status(200).json({ accessToken });
+    const refreshToken = await LoginServices.loginAccountMongoService(req);
+    if (refreshToken) {
+      res.status(200).json({ refreshToken });
+    } else {
+      res.status(401).json({ message: "Invalid Credentials" });
+    }
+  } catch (error) {
+    //
+    res.sendStatus(500);
+  }
+};
+
+LoginController.loginPhoneNumberController = async (req, res) => {
+  try {
+    //
+    const sentCodeId = await LoginServices.loginPhoneNumberService(req);
+    if(sentCodeId){
+      res
+      .status(200)
+      .json({ message: "Send codeId success", codeId: sentCodeId });
+    }else{
+      res
+      .status(401)
+      .json({ message: "Error codeId", codeId: sentCodeId });
+    }
+    
   } catch (error) {
     //
     res.sendStatus(500);
