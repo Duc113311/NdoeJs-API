@@ -16,4 +16,8 @@ router.post("/login", LoginController.loginAccountMongoController);
 
 router.post("/phone-number", LoginController.loginPhoneNumberController);
 
+router.post("/create-refresh-token", LoginController.createRefreshTokenController);
+
+router.post("/create-token", LoginController.createTokenLoginController);
+
 module.exports = router;

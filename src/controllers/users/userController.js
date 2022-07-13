@@ -1,12 +1,21 @@
-const UserService = require("../services/userService.js");
+const UserService = require("../../services/users/userService.js");
 const UserController = {};
 UserController.getAllUserController = async (req, res) => {
   try {
-    const users = await UserService.getAllUserSevice();
-    res.status(200).json({
-      users: users,
-    });
+    const users = await UserService.getAllUserSevice(req);
+    if (!users) {
+      res.sendStatus(401); // Unauthorized
+    } else {
+      if (!users.data) {
+        res.sendStatus(403); //Forbidden
+      } else {
+        res.status(200).json({
+          users: users,
+        });
+      }
+    }
   } catch (error) {
+    res.error;
   }
 };
 

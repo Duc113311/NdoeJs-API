@@ -1,11 +1,11 @@
 const express = require("express");
 
 const BaseControllers = require("../../src/base/baseControllers.js");
-
+const UserController = require('../../src/controllers/users/userController.js')
 const router = express.Router();
 
 // Method get, post, put, delete
-router.get("/:entityName", BaseControllers.getAllEntitysController);
+router.get("/:entityName", UserController.getAllUserController);
 
 router.post("/:entityName", BaseControllers.createEntityController);
 

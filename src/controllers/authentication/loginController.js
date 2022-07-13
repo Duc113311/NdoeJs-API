@@ -77,23 +77,63 @@ LoginController.loginAccountMongoController = async (req, res) => {
   }
 };
 
+/**
+ * Login PhoneNumber Firebase
+ * @param {*} req
+ * @param {*} res
+ * CreateBy: NVDUC
+ */
 LoginController.loginPhoneNumberController = async (req, res) => {
   try {
     //
-    const sentCodeId = await LoginServices.loginPhoneNumberService(req);
-    if(sentCodeId){
-      res
-      .status(200)
-      .json({ message: "Send codeId success", codeId: sentCodeId });
-    }else{
-      res
-      .status(401)
-      .json({ message: "Error codeId", codeId: sentCodeId });
+    const tokenParam = await LoginServices.loginPhoneNumberService(req);
+    if (tokenParam) {
+      res.status(200).json({ message: "Login success", tokenData: tokenParam });
     }
-    
   } catch (error) {
     //
     res.sendStatus(500);
+  }
+};
+
+/**
+ * Khởi tạo refreshToken khi accessToken hết hạn
+ * @param {*} req
+ * @param {*} res
+ * CreateBy: NVDuc
+ */
+LoginController.createRefreshTokenController = async (req, res) => {
+  try {
+    const refreshTokenData = await LoginServices.createRefreshTokenService(req);
+    if (!refreshTokenData) {
+      res.sendStatus(401);
+    } else {
+      res.status(200).json({
+        message: "Create AccessToken Success",
+        accessToken: refreshTokenData,
+      });
+    }
+  } catch (error) {
+    res.error;
+  }
+};
+
+/**
+ * Tạo AccessToken & RefreshToken khi login thành công
+ * @param {*} req 
+ * @param {*} res 
+ * CreateBy: NVDuc
+ */
+LoginController.createTokenLoginController = async (req, res) => {
+  try {
+    const tokenData = await LoginServices.createRefreshTokenService(req);
+    res.status(200).json({
+      message: "Create AccessToken & RefreshToken Success",
+      accessToken: tokenData.accessToken,
+      refreshToken: tokenData.refreshToken,
+    });
+  } catch (error) {
+    res.error;
   }
 };
 

@@ -9,7 +9,7 @@ dotenv.config();
 
 const usersRouters = require("../NodeJs-API/src/routes/rt-users.js");
 const loginRouters = require("../NodeJs-API/src/routes/rt-login.js");
-
+const styleRouters = require("../NodeJs-API/src/routes/rt-style.js");
 
 const app = express();
 const PORT = process.env.PORT || 5000; // port để sử dụng
@@ -24,8 +24,9 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Router của Controller App
-app.use("/users", usersRouters);
+app.use("/users/v1", usersRouters);
 app.use("/login/v1", loginRouters);
+app.use("/style-option/v1", styleRouters);
 
 // Router Default
 app.get("/", (req, res) => res.send("Hello from Homepage"));

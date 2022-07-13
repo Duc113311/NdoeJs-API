@@ -1,8 +1,37 @@
-GET http://localhost:5000/users/User
+### - Users
+
+GET http://localhost:5000/users/v1/User
+Authorization: Beaer 
+
 ###
 
+POST http://localhost:5000/users/Users
+Content-Type: application/json
 
-### - MonggoDB
+{
+    "UserID":"1oMkqtPswFZMXDUq0JCEkhvJEA93",
+    "FullName":"Nguyễn Văn Nam",
+    "BirthDay": "2013-10-21T13:28:06.419Z",
+    "ImageAvatar":[
+        {
+            "id":"hEckvpTesXMyYUSzyDzj",
+            "url":"https://firebasestorage.googleapis.com/v0/b/app-heartlink.appspot.com/o/some-child%2F%E1%BA%A2nh-si%C3%AAu-xe-Lamborghini.jpg?alt=media&token=7eeaa0fd-fd5f-40e0-a967-54f0879030d6"
+        },
+        {
+            "id":"jloDnFgTNrAIc7ZJaphp",
+            "url":"https://firebasestorage.googleapis.com/v0/b/app-heartlink.appspot.com/o/some-child%2Fphoto-1-158206208103944329957_uxuj.jpg?alt=media&token=adeee090-7e7f-4573-a724-319df1850b4b"
+        }
+    ],
+    "IntroduceYourself":"Tôi 23 tuổi, nghề nghiệp IT, thích nấu ăn",
+    "Interests":"Bóng chuyền, Ban Nhạc, Khởi Nghiệp",
+    "SchoolName":"Trường trung học phổ thông Hưng Yên",
+    "SexualOrientation":"Straight, Gay, Queer",
+    "CreateBy":"2013-10-21T13:28:06.419Z",
+    "Gender":0
+}
+
+### -------------------------------------------------------------------------###
+### - Đăng ký tài khoản bằng nhập email và passwork
 POST http://localhost:5000/login/v1/register
 Content-Type: application/json
 
@@ -11,8 +40,7 @@ Content-Type: application/json
     "passWord":"1234567"
 }
 
-###
-
+### - Login bằng tài khoản Email/passwork
 POST http://localhost:5000/login/v1/login
 Content-Type: application/json
 
@@ -21,13 +49,40 @@ Content-Type: application/json
     "passWord":"1234567"
 }
 
-###
-
+### - Login bằng số điện thoại
 POST http://localhost:5000/login/v1/phone-number
 Content-Type: application/json
 
 {
     "phoneNumber":"+84962282864",
-    "codeId":"575065",
-    "sendCodeId":"AJOnW4TiRBvt1EBLVf90qF0xIpyZ3WqjGx73MgF3-R7yhbTGZizC3767G9hPmEiOIB1UDHaBAbPWGIMjVLwvV0vZ5IvSDxk9lOzzSvBBTaWdtjFzuRrqi3fBq5IjIalg3ygZqQtoIH0F8e5l-hJTfQOupCi5AGaS_OFZi4zKCG2mWX8bUM53arjkbH5kf7hYUNSLX63LNS6sNnUCvkhr5FEZ1hu1Tq-RQcqpwHUdZ4U9U2qcr0SbO74"
+    "codeId":"027238",
+    "sendCodeId":"AOO2nWVa4SWANBhtRSekLW6mOn4EpmRxjmhEdB9j7D2vacf2dmu5JEQM6ECqo85hLMvsvq2sPHXGZenUAiwPfRLXXb6Z52BMJLPa8kK_XqOIS1KX4pR-oih_wzrQ2d9V7MYEHJuYONvGFva9lYwL23nXjuR2oRQhqklpAm4I4OuNI6_sXgTO-7aIR0UkdJKjfwft1vLCDAnEmITwU0TmETg6mng2cOIQc_S4jFk6VJKbbrawpVEPqs4"
+}
+
+
+### - Tạo refreshToken khi AccessToken hết hạn - gia hạn thêm
+POST http://localhost:5000/login/v1/create-refresh-token
+Content-Type: application/json
+
+{
+    "token":""
+}
+
+
+###-----------------------------------------------------------------------###
+### - StyleOptions
+
+GET http://localhost:5000/style-option/v1/getAll
+
+
+###
+POST http://localhost:5000/style-option/v1/create
+Content-Type: application/json
+
+{
+    "Title":"Hút thuốc thường xuyênss",
+    "TypeStyle":5,
+    "Describe":{
+        "url":"hádasdasd"
+    }
 }
